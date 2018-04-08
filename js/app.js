@@ -48,13 +48,17 @@ var create_map = function() {
         One enemy for each stone row
 * @return {list} mapItems
 */
-var add_enemies = function() {
+var add_enemies = function(map) {
     var enemy;
     var enemyList = [];
 
-    for(var i = 1; i < (NUM_ROWS - 1); i++) {
-        enemy = new Enemy(0, i * FIELD_HEIGHT - FIELD_HEIGHT / 4, 100 + Math.floor(Math.random() * 400));
-        enemyList.push(enemy);
+    if(map.length != 0) {
+        for(var i = 0; i < map.length; i++) {
+            if(map[i] === 'images/stone-block.png') {
+                enemy = new Enemy(0, i * FIELD_HEIGHT - FIELD_HEIGHT / 4, 100 + Math.floor(Math.random() * 400));
+                enemyList.push(enemy);
+            }
+        }
     }
 
     return enemyList;
@@ -192,6 +196,6 @@ document.addEventListener('keyup', function(e) {
 });
 
 var map = create_map();
-var allEnemies = add_enemies();
+var allEnemies = add_enemies(map);
 var player = new Player();
 
