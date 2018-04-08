@@ -3,7 +3,7 @@ const FIELD_WIDTH = 101;
 const FIELD_HEIGHT = 83;
 
 //number of rows and columns (can be changed as prefered)
-const NUM_ROWS = 6;
+const NUM_ROWS = 10;
 const NUM_COLS = 5;
 
 
@@ -35,7 +35,12 @@ var create_map = function() {
     mapItems.push('images/water-block.png');
 
     for(var i = 1; i < (NUM_ROWS - 1); i++) {
-        mapItems.push('images/stone-block.png');
+        var random = Math.random() * 10;
+
+        if(random > 8)
+            mapItems.push('images/grass-block.png');
+        else
+            mapItems.push('images/stone-block.png');
     }
 
     mapItems.push('images/grass-block.png');
@@ -55,7 +60,7 @@ var add_enemies = function(map) {
     if(map.length != 0) {
         for(var i = 0; i < map.length; i++) {
             if(map[i] === 'images/stone-block.png') {
-                enemy = new Enemy(0, i * FIELD_HEIGHT - FIELD_HEIGHT / 4, 100 + Math.floor(Math.random() * 400));
+                enemy = new Enemy(0, i * FIELD_HEIGHT - FIELD_HEIGHT / 4, 200 + Math.floor(Math.random() * 200));
                 enemyList.push(enemy);
             }
         }
@@ -140,6 +145,15 @@ Player.prototype.reset = function() {
 };
 
 /**
+* @description Resets the player to the startposition and changes the map
+*/
+Player.prototype.win = function() {
+    this.reset();
+    map = create_map();
+    allEnemies = add_enemies(map);
+};
+
+/**
 * @description Checks if the player reached the goal or tries to move outside the map
 */
 Player.prototype.update = function(dt) {
@@ -157,7 +171,7 @@ Player.prototype.update = function(dt) {
 
     //Player reached the goal
     if (this.y <= 0)
-        this.reset();
+        this.win();
 };
 
 /**
