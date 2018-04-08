@@ -3,9 +3,15 @@ const FIELD_WIDTH = 101;
 const FIELD_HEIGHT = 83;
 
 //number of rows and columns (can be changed as prefered)
-const NUM_ROWS = 10;
-const NUM_COLS = 5;
+const NUM_ROWS = 7;
+const NUM_COLS = 7;
 
+/**
+* @description Sets the Score
+*/
+var set_score = function() {
+    document.getElementById("score").innerHTML = currentScore+"";
+}
 
 /**
 * @description Returns the x of the startposition of the player
@@ -119,7 +125,7 @@ Enemy.prototype.update = function(dt) {
             && player.x + FIELD_WIDTH / 1.5 > this.x 
             && player.y - FIELD_HEIGHT / 1.5 < this.y 
             && player.y + FIELD_HEIGHT / 1.5 > this.y)
-        player.reset();
+        player.lose();
 
 };
 
@@ -151,6 +157,17 @@ Player.prototype.win = function() {
     this.reset();
     map = create_map();
     allEnemies = add_enemies(map);
+    currentScore++;
+    set_score();
+};
+
+/**
+* @description Resets the player to the startposition and resets the score
+*/
+Player.prototype.lose = function() {
+    this.reset();
+    currentScore = 0;
+    set_score();
 };
 
 /**
@@ -212,4 +229,5 @@ document.addEventListener('keyup', function(e) {
 var map = create_map();
 var allEnemies = add_enemies(map);
 var player = new Player();
+var currentScore = 0;
 
